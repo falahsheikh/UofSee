@@ -3,6 +3,7 @@
 <head>
     <meta name="viewpoint" content="width=device-width, initial-scale=1.0">
     <title>UofSee</title>
+    <link rel="stylesheet" href="dis.css">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -18,8 +19,8 @@
            </div>
            <ul class="nav no-search">
              <li class="nav-item"><a href="index.html">Home</a></li>
-             <li class="nav-item"><a href="Maps.html" target="_blank">Maps</a></li>
-             <li class="nav-item"><a href="https://ucalgary.ca/ucalgary-news" target="_blank">News</a></li>
+             <li class="nav-item"><a href="Maps.html">Maps</a></li>
+             <li class="nav-item"><a href="News.html">News</a></li>
              <li class="nav-item"><a href="Discussion.html">Discussion</a></li>
              <i class="fas fa-search" id="search-icon"></i>
              <input class="search-input" type="text" placeholder="Search..">
@@ -31,11 +32,106 @@
            <p>Recommend hot-spots and talk with the community!</p>
          </section>
          </div>
-         <div id="fb-root"></div>
-         <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v17.0" nonce="bGCTyq12"></script>
-         
-         <div class="fb-comments" data-href="https://developers.facebook.com/docs/plugins/comments#configurator" data-width="1420" data-numposts="1" width="100%"></div>
-         <p class="copyright">Falah © UofSee</p>
+<!--------------------------- Comment section ------------------------->
+
+<div class="container">
+  <div class="head"><h1>Post a comment</h1></div>
+  <div><span id="comment">0</span> Comments</div>
+  <div class="text"><p>We are happy to hear from you!</p></div>
+  <div class="comments"></div>
+  <div class="commentbox">
+    <img src="https://static.vecteezy.com/system/resources/thumbnails/019/879/186/small/user-icon-on-transparent-background-free-png.png" alt="User icon">
+    <div class="content">
+      <h2>Comment Here</h2>
+      <input type="text" value="Anonymous" class="user">
+
+      <div class="commentinput">
+        <input type="text" placeholder="Enter comment" class="usercomment">
+        <div class="buttons">
+          <button type="submit" disabled id="publish">Publish</button>
+          <div class="notify">
+            <!-- <input type="checkbox" class="notifyinput"> <span>Notify me</span> -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+  <script>
+    "use strict"
+
+    const userId = {
+      name: null,
+      identity: null,
+      image: null,
+      message: null,
+      date: null
+    }
+
+    const userComment = document.querySelector(".usercomment");
+    const publishBtn = document.querySelector("#publish");
+    const comments = document.querySelector(".comments");
+    const userName = document.querySelector(".user");
+
+    userComment.addEventListener("input", e => {
+      if(!userComment.value){
+        publishBtn.setAttribute("disabled", "disabled");
+        publishBtn.classList.remove("abled")
+      }else {
+        publishBtn.removeAttribute("disabled");
+        publishBtn.classList.add("abled")
+      }
+    })
+
+
+
+    function addPost() {
+      console.log("The button works!")
+      if(!userComment.value) return;
+      userId.name = userName.value;
+      if(userId.name === "Anonymous"){
+        userId.identity = false;
+        userId.image = "anonymous.png";
+      }else {
+        userId.identity = true;
+        // userId.image = "user.png"
+      }
+
+      userId.message = userComment.value;
+      userId.date = new Date().toLocaleString();
+      let published =
+    `<div class="parents">
+        <img src="${userId.image}">
+        <div>
+          <h1>${userId.name}</h1>
+          <p>${userId.message}</p>
+          <div class="engagements"></div>
+          <span class="date">${userId.date}</span>
+        </div>
+      </div>`;
+
+        comments.innerHTML += published;
+        userComment.value = "";
+
+        let commentsNum = document.querySelectorAll(".parents").length;
+        document.getElementById("comment").textContent = commentsNum;
+
+
+
+    }
+
+    publishBtn.addEventListener("click", addPost)
+
+
+
+    
+  </script>
+
+
 
 </body>    
 </html>
